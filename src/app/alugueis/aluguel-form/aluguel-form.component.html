@@ -1,0 +1,36 @@
+<div class="form-container">
+  <form #aluguelForm="ngForm">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{ title }}</mat-card-title>
+        <mat-card-subtitle>Preencha os dados para registrar o aluguel</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field class="full-width">
+          <mat-label>Modelo da Moto</mat-label>
+          <mat-icon matPrefix>two_wheeler</mat-icon>
+          <input matInput name="modeloMoto" [(ngModel)]="aluguel.modeloMoto" required placeholder="Ex: Honda CB 500F">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Nome do Cliente</mat-label>
+          <mat-icon matPrefix>person</mat-icon>
+          <input matInput name="nomeCliente" [(ngModel)]="aluguel.nomeCliente" required placeholder="Ex: João da Silva">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Data da Retirada</mat-label>
+          <mat-icon matPrefix>calendar_today</mat-icon>
+          <input matInput [matDatepicker]="picker" name="dataRetirada" [(ngModel)]="aluguel.dataRetirada" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-flat-button (click)="navigateToHome()">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="save()" [disabled]="!aluguelForm.form.valid">Salvar</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

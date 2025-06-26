@@ -1,0 +1,20 @@
+.form-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px; // Adiciona um espaço entre os botões
+}
+
+mat-icon[matPrefix] {
+  margin-right: 10px;
+  color: #666;
+}

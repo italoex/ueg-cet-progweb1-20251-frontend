@@ -1,0 +1,43 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 58px;
+}
+
+.app-content {
+  flex: 1;
+  padding: 16px;
+  overflow: auto;
+}
+
+.app-footer {
+  justify-content: center;
+  font-size: 0.5em;
+  height: 24px;
+}
+.spacer {
+  flex: 1 1 auto;
+}
+
+.logo {
+  height: 52px; // Levemente menor que os 64px da toolbar, para respirar
+  object-fit: contain;
+  margin-right: 16px;
+}
+
+
+.titulo-negrito{
+  font-weight: bold;
+  margin-right: 16px;
+}
+
+.titulo-header{
+  padding-top: 15px;
+}

@@ -6,25 +6,30 @@
 mat-card {
   box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
   border-radius: 8px;
-  overflow: hidden;
 }
 
-.title-mat-card-with-action {
+// Estilos para o novo cabeçalho do cartão
+.card-header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  flex-wrap: wrap; // Permite que o botão quebre a linha em ecrãs pequenos
+  gap: 16px; // Espaço entre o título e o botão
   padding: 16px 24px;
 }
 
-.title-mat-card {
+mat-card-title {
   font-size: 1.5rem;
   font-weight: 400;
   color: #333;
 }
 
-button[mat-raised-button] mat-icon {
-  margin-right: 8px;
+.header-actions button span {
+  margin-left: 8px;
+}
+
+.card-content-no-padding {
+  padding: 0 !important; // Remove o padding do content para a tabela ocupar tudo
 }
 
 .full-width-table {

@@ -1,18 +1,10 @@
-<!-- app.component.html -->
-<mat-toolbar color="primary" class="app-header">
-  <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/7/76/Marca_UEG_horizontal_extenso_cromia%281%29.png" alt="Logo UEG" />
-  <span class="spacer"></span>
-  <div class="titulo-negrito titulo-header"> Universidade Estadual de Goiás</div>
-  <button mat-button routerLink="/">Início</button>
-  <button mat-button routerLink="/sobre">Sobre</button>
-  <button mat-button routerLink="/contato">Contato</button>
+<mat-toolbar color="primary" class="mat-elevation-z4">
+  <div class="toolbar-container">
+    <mat-icon>two_wheeler</mat-icon>
+    <span>{{ title }}</span>
+  </div>
 </mat-toolbar>
 
-<main class="app-content" >
-  <router-outlet
-  ></router-outlet>
+<main class="content">
+  <router-outlet></router-outlet>
 </main>
-
-<mat-toolbar color="primary" class="app-footer">
-  <span>&copy; 2025 - Todos os direitos reservados</span>
-</mat-toolbar>

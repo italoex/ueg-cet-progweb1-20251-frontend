@@ -1,38 +1,40 @@
 import { Component, OnInit } from '@angular/core';
 import { AluguelService } from '../shared/aluguel.service';
-import { Aluguel } from '../shared/aluguel';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Necessário para ngModel
+import { Aluguel } from '../../api/models';
+import { ActivatedRoute, Router } from '@angular/router';
 
-// Imports do Angular Material
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
 import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-aluguel-form',
   standalone: true,
+
   imports: [
     CommonModule,
-    RouterModule,
-    FormsModule, // Import do FormsModule
+    FormsModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatDatepickerModule,
+    MatIconModule,
     MatNativeDateModule
   ],
   templateUrl: './aluguel-form.component.html',
   styleUrls: ['./aluguel-form.component.scss']
 })
 export class AluguelFormComponent implements OnInit {
-  aluguel: Aluguel = new Aluguel();
+  aluguel: Aluguel = {};
   title: string = 'Novo Aluguel';
+  isEditing = false;
 
   constructor(
     private aluguelService: AluguelService,
@@ -41,26 +43,27 @@ export class AluguelFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    if (id) {
-      const foundAluguel = this.aluguelService.getAluguel(parseInt(id, 10));
-      if (foundAluguel) {
-        this.aluguel = foundAluguel;
-        this.title = 'Editar Aluguel';
-      }
+    const idParam = this.activatedRoute.snapshot.paramMap.get('id');
+    if (idParam) {
+      this.isEditing = true;
+      const id = parseInt(idParam, 10);
+      this.title = 'Editar Aluguel';
+      this.aluguelService.getAluguel(id).subscribe(data => this.aluguel = data);
     }
   }
 
-  save() {
-    if (this.aluguel.id) {
-      this.aluguelService.updateAluguel(this.aluguel);
-    } else {
-      this.aluguelService.addAluguel(this.aluguel);
-    }
-    this.navigateToHome();
+  save(): void {
+    const action = this.isEditing && this.aluguel.id
+      ? this.aluguelService.updateAluguel(this.aluguel.id, this.aluguel)
+      : this.aluguelService.addAluguel(this.aluguel);
+
+    action.subscribe({
+      next: () => this.navigateToHome(),
+      error: (err) => console.error('Erro ao salvar aluguel', err)
+    });
   }
 
-  navigateToHome() {
+  navigateToHome(): void {
     this.router.navigate(['/']);
   }
 }

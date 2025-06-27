@@ -1,55 +1,62 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Aluguel } from '../shared/aluguel';
+import { Aluguel } from '../../api/models';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { AluguelService } from '../shared/aluguel.service';
 import { CommonModule } from '@angular/common';
 
-// Imports do Angular Material
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatChipsModule } from '@angular/material/chips'; // <-- ADICIONE ESTA LINHA
+import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-aluguel-list',
   standalone: true,
   imports: [
-    CommonModule,
-    RouterModule,
-    MatTableModule,
-    MatCardModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatChipsModule // <-- E ADICIONE AQUI
+    CommonModule, RouterModule, MatTableModule, MatCardModule,
+    MatButtonModule, MatIconModule, MatTooltipModule, MatChipsModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './aluguel-list.component.html',
   styleUrls: ['./aluguel-list.component.scss']
 })
-export class AluguelListComponent {
+export class AluguelListComponent implements OnInit {
   dataSource = new MatTableDataSource<Aluguel>();
-
-  constructor(private aluguelService: AluguelService) {
-    this.updateTable();
-  }
-
+  isLoading = true;
   displayedColumns: string[] = ['modeloMoto', 'nomeCliente', 'dataRetirada', 'status', 'actions'];
 
+  constructor(private aluguelService: AluguelService) {}
+
+  ngOnInit(): void {
+    this.loadAlugueis();
+  }
+
+  loadAlugueis(): void {
+    this.isLoading = true;
+    this.aluguelService.getAlugueis().subscribe({
+      next: (data) => {
+        this.dataSource.data = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Erro ao carregar aluguéis', err);
+        this.isLoading = false;
+      }
+    });
+  }
+
   finalizarAluguel(aluguel: Aluguel): void {
-    this.aluguelService.finalizarAluguel(aluguel);
-    this.updateTable();
+    if (aluguel.id) {
+      this.aluguelService.finalizarAluguel(aluguel.id).subscribe(() => this.loadAlugueis());
+    }
   }
 
-  remover(aluguel: Aluguel) {
-    this.aluguelService.removeAluguel(aluguel.id ?? 0);
-    this.updateTable();
-  }
-
-  private updateTable() {
-    this.dataSource.data = this.aluguelService.getAlugueis();
+  remover(aluguel: Aluguel): void {
+    if (aluguel.id) {
+      this.aluguelService.removeAluguel(aluguel.id).subscribe(() => this.loadAlugueis());
+    }
   }
 }

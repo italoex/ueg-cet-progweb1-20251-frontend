@@ -8,13 +8,12 @@ mat-card {
   border-radius: 8px;
 }
 
-// Estilos para o novo cabeçalho do cartão
 .card-header-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap; // Permite que o botão quebre a linha em ecrãs pequenos
-  gap: 16px; // Espaço entre o título e o botão
+  flex-wrap: wrap;
+  gap: 16px;
   padding: 16px 24px;
 }
 
@@ -29,7 +28,7 @@ mat-card-title {
 }
 
 .card-content-no-padding {
-  padding: 0 !important; // Remove o padding do content para a tabela ocupar tudo
+  padding: 0 !important;
 }
 
 .full-width-table {

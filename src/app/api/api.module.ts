@@ -6,7 +6,7 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
-import { AlugueisService } from './services/alugueis.service';
+import { AluguelControllerService } from './services/aluguel-controller.service';
 
 /**
  * Module that provides all services and configuration.
@@ -16,7 +16,7 @@ import { AlugueisService } from './services/alugueis.service';
   exports: [],
   declarations: [],
   providers: [
-    AlugueisService,
+    AluguelControllerService,
     ApiConfiguration
   ],
 })

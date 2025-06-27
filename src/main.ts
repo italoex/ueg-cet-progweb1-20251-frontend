@@ -16,7 +16,7 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(
       MatNativeDateModule,
       HttpClientModule,
-      ApiModule.forRoot({ rootUrl: 'http://localhost:3000' })
+      ApiModule.forRoot({ rootUrl: 'http://localhost:8080' })
     )
   ]
 }).catch(err => console.error(err));

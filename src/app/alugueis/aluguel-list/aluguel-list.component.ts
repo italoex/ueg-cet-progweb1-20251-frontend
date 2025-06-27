@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { Aluguel } from '../../api/models';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { AluguelService } from '../shared/aluguel.service';
@@ -28,9 +29,17 @@ export class AluguelListComponent implements OnInit {
   isLoading = true;
   displayedColumns: string[] = ['modeloMoto', 'nomeCliente', 'dataRetirada', 'status', 'actions'];
 
-  constructor(private aluguelService: AluguelService) {}
+  constructor(
+    private aluguelService: AluguelService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.loadAlugueis();
+    });
     this.loadAlugueis();
   }
 
@@ -38,11 +47,11 @@ export class AluguelListComponent implements OnInit {
     this.isLoading = true;
     this.aluguelService.getAlugueis().subscribe({
       next: (data) => {
-        this.dataSource.data = data;
+        this.dataSource.data = data || [];
         this.isLoading = false;
       },
       error: (err) => {
-        console.error('Erro ao carregar aluguéis', err);
+        console.error('Erro ao carregar os aluguéis!', err);
         this.isLoading = false;
       }
     });
